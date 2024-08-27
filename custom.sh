@@ -57,7 +57,7 @@ function build_container {
   echo "Building the LXC container..."
   
   # Ensure the container template exists
-  TEMPLATE_PATH="/var/lib/vz/template/cache/${var_os}-${var_version}-standard_11.0-1_amd64.tar.gz"
+  TEMPLATE_PATH="/var/lib/vz/template/cache/debian-12-standard_12.2-1_amd64.tar.zst"
   if [[ ! -f $TEMPLATE_PATH ]]; then
     echo "Template $TEMPLATE_PATH does not exist. Please check the template path."
     exit 1
