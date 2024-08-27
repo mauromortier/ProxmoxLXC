@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-source <(curl -s https://raw.githubusercontent.com/tteck/Proxmox/main/misc/build.func)
+source <(curl -s https://raw.githubusercontent.com/mauromortier/ProxmoxLXC/main/build.func)
 
 # Author: tteck (tteckster)
 # Slightly changed to my liking: MauroMortier (mmortier.be)
