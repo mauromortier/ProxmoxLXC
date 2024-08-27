@@ -22,6 +22,7 @@ function load_variables {
   var_ram="1024"
   var_os="debian"
   var_version="12"
+  STORAGE="Spinny"  # Use a valid storage name here, e.g., 'local' or another configured storage
 }
 
 # Function for setting default container parameters
@@ -54,16 +55,31 @@ function default_settings {
 # Function to build the LXC container
 function build_container {
   echo "Building the LXC container..."
+  
+  # Ensure the container template exists
+  TEMPLATE_PATH="/var/lib/vz/template/cache/${var_os}-${var_version}-standard_11.0-1_amd64.tar.gz"
+  if [[ ! -f $TEMPLATE_PATH ]]; then
+    echo "Template $TEMPLATE_PATH does not exist. Please check the template path."
+    exit 1
+  fi
 
-  pct create $CT_ID local:vztmpl/${var_os}-${var_version}-standard_11.0-1_amd64.tar.gz \
+  # Create the container
+  pct create $CT_ID $TEMPLATE_PATH \
     --hostname $HN \
     --cores $CORE_COUNT \
     --memory $RAM_SIZE \
     --net0 name=eth0,bridge=$BRG,ip=$NET \
-    --rootfs local-lvm:$DISK_SIZE \
+    --rootfs $STORAGE:$DISK_SIZE \
     --unprivileged $CT_TYPE \
     --features nesting=1 \
     --password $PW
+
+  # Check if the configuration file was created
+  CONFIG_FILE="/etc/pve/lxc/$CT_ID.conf"
+  if [[ ! -f $CONFIG_FILE ]]; then
+    echo "Configuration file $CONFIG_FILE does not exist. Container creation might have failed."
+    exit 1
+  fi
 
   echo "Container created with ID $CT_ID."
 }
