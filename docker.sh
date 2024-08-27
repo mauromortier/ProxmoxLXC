@@ -38,7 +38,7 @@ function default_settings() {
   CORE_COUNT="$var_cpu"
   RAM_SIZE="$var_ram"
   BRG="vmbr0"
-  NET="static"
+  NET="dhcp"
   GATE=""
   APT_CACHER=""
   APT_CACHER_IP=""
