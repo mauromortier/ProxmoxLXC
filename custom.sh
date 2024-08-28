@@ -69,7 +69,7 @@ function build_container {
     --cores $CORE_COUNT \
     --memory $RAM_SIZE \
     --net0 name=eth0,bridge=$BRG,ip=$NET \
-    --rootfs Spinny:$var_disk,size=$var_disk"GB" \
+    --rootfs Spinny:$var_disk,size=$var_disk"GiB" \
     --unprivileged $CT_TYPE \
     --features nesting=1 \
     --password $PW
