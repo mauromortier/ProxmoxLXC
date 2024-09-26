@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - WATCHTOWER_CLEANUP=true # Automatically remove old images after updating
+      - WATCHTOWER_POLL_INTERVAL=300 # Time interval for checking updates (default is 300 seconds)
+      - WATCHTOWER_INCLUDE_STOPPED=false # Skip stopped containers
