@@ -1,1 +1,0 @@
-bash -c "$(wget -qLO - https://github.com/mauromortier/ProxmoxLXC/blob/main/docker.sh)"
