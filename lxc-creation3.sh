@@ -45,7 +45,7 @@ prompt    "CPU cores"                "2"          CT_CORES
 prompt    "RAM in MB"                "2048"       CT_RAM
 prompt    "Swap in MB"               "512"        CT_SWAP
 prompt    "Disk size in GB"          "20"         CT_DISK
-prompt    "Storage"                  "local-lvm"  CT_STORAGE
+prompt    "Storage"                  "SSD2"  CT_STORAGE
 prompt    "IP (dhcp or 192.168.0.x/24)" "dhcp"       CT_IP
 
 CT_GW=""
@@ -69,8 +69,8 @@ echo "  Network:  $CT_IP"
 echo "  DNS:      $CT_DNS"
 echo "──────────────────────────────────────"
 echo ""
-read -rp "Proceed? (y/N): " confirm
-[[ "$confirm" =~ ^[Yy]$ ]] || { echo "Aborted."; exit 0; }
+read -rp "Proceed? (Y/n): " confirm
+[[ "$confirm" =~ ^([Yy]|)$ ]] || { echo "Aborted."; exit 0; }
 
 # ── Download template if needed ────────────────────────────────────────────
 info "Checking for template..."
@@ -157,12 +157,21 @@ systemctl start docker
 "
 success "Docker installed."
 
+# ── Install Fastfetch ─────────────────────────────────────────────────────────
+
+pct exec "$CT_ID" -- bash -c "
+apt-get install fastfetch -y -qq
+echo ""
+echo ""
+echo ""
+echo ""
+fastfetch
+"
+
 # ── Done ───────────────────────────────────────────────────────────────────
 CT_IP_LIVE=$(pct exec "$CT_ID" -- hostname -I 2>/dev/null | awk '{print $1}')
 
-echo ""
-echo ""
-echo ""
+
 echo ""
 echo -e "${GREEN}${BOLD}╔══════════════════════════════════════════════════╗${NC}"
 echo -e "${GREEN}${BOLD}║            Container Ready!                      ║${NC}"
@@ -171,10 +180,5 @@ echo ""
 echo -e "  ${BOLD}Container:${NC}  $CT_ID ($CT_HOSTNAME)"
 echo -e "  ${BOLD}IP:${NC}         ${CT_IP_LIVE:-pending (DHCP)}"
 echo ""
-echo -e "  ${BOLD}Connect:${NC}"
-echo -e "    Console:  pct enter $CT_ID"
-[[ -n "${CT_IP_LIVE:-}" ]] && echo -e "    SSH:      ssh root@${CT_IP_LIVE}"
 echo ""
-echo -e "  ${BOLD}Installed:${NC}  Docker Engine + Compose plugin"
-echo -e "  ${BOLD}Note:${NC}       Containers need 'security_opt: [apparmor=unconfined]'"
 echo ""
