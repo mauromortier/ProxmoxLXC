@@ -19,7 +19,7 @@ command -v pct   &>/dev/null  || error "pct not found — are you on a Proxmox h
 command -v pveam &>/dev/null  || error "pveam not found — are you on a Proxmox host?"
 
 # ── Configuration ──────────────────────────────────────────────────────────
-TEMPLATE="ubuntu-24.04-standard_24.04-2_amd64.tar.zst"
+TEMPLATE="debian-13-standard_13.1-2_amd64.tar.zst"
 NEXT_ID=$(pvesh get /cluster/nextid 2>/dev/null || echo "100")
 
 echo ""
