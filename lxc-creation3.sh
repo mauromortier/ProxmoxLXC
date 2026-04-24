@@ -125,7 +125,8 @@ pct exec "$CT_ID" -- bash -c "
   export DEBIAN_FRONTEND=noninteractive
   apt-get update -qq
   apt-get upgrade -y -qq
-  apt install sudo -y -qq
+  apt-get install sudo -y -qq
+  apt-get install curl -y -qq
 "
 success "System updated."
 
@@ -133,25 +134,25 @@ success "System updated."
 info "Installing Docker..."
 pct exec "$CT_ID" -- bash -c "
   # Add Docker's official GPG key:
-apt update
-apt install ca-certificates curl
+apt-get update -qq
+apt-get install ca-certificates -y -qq
 install -m 0755 -d /etc/apt/keyrings
 curl -fsSL https://download.docker.com/linux/debian/gpg -o /etc/apt/keyrings/docker.asc
 chmod a+r /etc/apt/keyrings/docker.asc
 
 # Add the repository to Apt sources:
-sudo tee /etc/apt/sources.list.d/docker.sources <<EOF
+tee /etc/apt/sources.list.d/docker.sources <<EOF
 Types: deb
 URIs: https://download.docker.com/linux/debian
-Suites: $(. /etc/os-release && echo "$VERSION_CODENAME")
+Suites: \$(. /etc/os-release && echo \"\$VERSION_CODENAME\")
 Components: stable
-Architectures: $(dpkg --print-architecture)
+Architectures: \$(dpkg --print-architecture)
 Signed-By: /etc/apt/keyrings/docker.asc
 EOF
 
-apt update
+apt-get update -qq
 
-apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin -y -qq
+apt-get install -y -qq docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 systemctl start docker
 "
 success "Docker installed."
