@@ -1,12 +1,11 @@
 #!/usr/bin/env bash
 # ============================================================================
-#  Claude Code LXC Deployer for Proxmox
-#  Creates a fully provisioned Ubuntu 24.04 LXC container ready for Claude Code
+#  LXC Deployer for Proxmox
+#  Creates a fully provisioned Debian LXC container 
 #
 #  Run on your Proxmox host:
-#    curl -fsSL https://raw.githubusercontent.com/serversathome-personal/code/main/agentic.sh -o /tmp/agentic.sh && bash /tmp/agentic.sh
+#    curl -fsSL https://raw.githubusercontent.com/mauromortier/code/main/agentic.sh -o /tmp/lxc-Docker.sh && bash /tmp/lxc-Docker.sh
 #
-#  GitHub: https://github.com/serversathome-personal/code
 # ============================================================================
 set -euo pipefail
 
@@ -26,7 +25,7 @@ error()   { echo -e "${RED}[ERROR]${NC} $*"; exit 1; }
 header() {
   echo ""
   echo -e "${BOLD}╔══════════════════════════════════════════════════╗${NC}"
-  echo -e "${BOLD}║        Claude Code LXC Deployer (Proxmox)       ║${NC}"
+  echo -e "${BOLD}║         LXC Deployer (Proxmox)                   ║${NC}"
   echo -e "${BOLD}╚══════════════════════════════════════════════════╝${NC}"
   echo ""
 }
